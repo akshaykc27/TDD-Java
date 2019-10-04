@@ -1,4 +1,5 @@
 package com.thoughtworks.tdd.addressbook;
 
-public interface AddressBook {
+public class AddressBook {
+
 }

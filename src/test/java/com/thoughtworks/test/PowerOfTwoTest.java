@@ -19,12 +19,12 @@ public class PowerOfTwoTest {
     }
 
     @Test
-    void givenNumberThree_whenCompare_thenReturnEight(){
-        Assertions.assertEquals(8,new PowerOfTwo().compute(3));
+    void givenNumberThree_whenCompare_thenReturnEight() {
+        Assertions.assertEquals(8, new PowerOfTwo().compute(3));
     }
 
     @Test
-    void givenNumberMinusOne_whenCompare_thenReturnDotFive(){
-        Assertions.assertEquals(0.5,new PowerOfTwo().compute(-1));
+    void givenNumberMinusOne_whenCompare_thenReturnDotFive() {
+        Assertions.assertEquals(0.5, new PowerOfTwo().compute(-1));
     }
 }
