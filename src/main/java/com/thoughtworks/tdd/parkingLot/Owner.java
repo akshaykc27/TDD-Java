@@ -1,13 +1,7 @@
 package com.thoughtworks.tdd.parkingLot;
 
-public class Owner {
-    private String message;
-    public boolean getNotification () {
-        if(message.equals("ParkingFull"));
-            return true;
-    }
-
-    public void Inform(String parkingFull) {
-        this.message = parkingFull;
+public class Owner implements Observer {
+    @Override
+    public void update(boolean message) {
     }
 }

@@ -30,7 +30,7 @@ public class Consumer {
     }
 
     public static void main(String[] args) {
-        Consumer consumer = new Consumer(new ParkingLot(2,new Owner()),new ParkingLot(3,new Owner()));
+        Consumer consumer = new Consumer(new ParkingLot(2,new Owner(),new SecurityGuard()),new ParkingLot(3,new Owner(),new SecurityGuard()));
         Object carA = new Object();
         Object carB = new Object();
         Object carC = new Object();

@@ -3,27 +3,30 @@ package com.thoughtworks.tdd.parkingLot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParkingLot {
+public class ParkingLot implements SubjectParkingLot{
 
-    private int capacity;
-    private Owner owner;
+    private boolean isFull;
+    protected int capacity;
+    private List<Observer> observers = new ArrayList<>();
 
-    public ParkingLot(int capacity,Owner owner) {
+    public ParkingLot(int capacity, Owner owner, SecurityGuard securityGuard) {
         this.capacity = capacity;
-        this.owner = owner;
+        isFull = false;
+        attach(owner);
+        attach(securityGuard);
     }
 
-    private List parkingList = new ArrayList();
+    protected List parkingList = new ArrayList();
 
     public boolean park(Object obj) throws ParkingLotFullException, SameVehicleCannotBeParkedException {
         if (parkingLotNotFull()) {
             if (!sameVehicleParked(obj)) {
-                 this.parkingList.add(obj);
-                 if(!parkingLotNotFull())
-                 {
-                     owner.Inform("ParkingFull");
-                 }
-                 return true;
+                this.parkingList.add(obj);
+                if (!parkingLotNotFull()) {
+                    isFull = true;
+                    notifyUpdate();
+                }
+                return true;
             }
             throw new SameVehicleCannotBeParkedException("Same vehicle can not be parked again");
         }
@@ -31,10 +34,14 @@ public class ParkingLot {
     }
 
     public Object unPark(Object obj) throws NotParkedException {
-        if(!sameVehicleParked(obj))
+        if (!sameVehicleParked(obj))
             throw new NotParkedException("Vehicle not parked");
-         this.parkingList.remove(obj);
-         return obj;
+        this.parkingList.remove(obj);
+        if (parkingLotNotFull()) {
+            isFull = false;
+            notifyUpdate();
+        }
+        return obj;
 
     }
 
@@ -45,4 +52,22 @@ public class ParkingLot {
     private boolean sameVehicleParked(Object obj) {
         return this.parkingList.contains(obj);
     }
+
+    @Override
+    public void attach(Observer o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void detach(Observer o) {
+        observers.remove(o);
+    }
+
+    @Override
+    public void notifyUpdate() {
+        for (Observer o : observers) {
+            o.update(isFull);
+        }
+    }
+
 }
